@@ -1,0 +1,35 @@
+- name: Install Containerd Container Runtime
+  become: yes
+  hosts: knode1
+#  hosts: localhost
+#  connection: local
+  gather_facts: no
+  vars:
+    containerd_version: "1.6.6"
+    containerd_dir: /usr/local
+    containerd_tarball: /tmp/containerd.tgz
+    containerd_systemd_unit: /etc/systemd/system/containerd.service
+    architecture: "amd64"
+  tasks:
+    - name: Download Containerd binary
+      get_url:
+        url: https://github.com/containerd/containerd/releases/download/v{{containerd_version}}/containerd-{{containerd_version}}-linux-{{architecture}}.tar.gz
+        dest: "{{containerd_tarball}}"
+        mode: 0755  
+    - name: Extract Containerd binary
+      unarchive:
+        src: "{{containerd_tarball}}"
+        dest: "{{containerd_dir}}" 
+        mode: 0555
+        remote_src: yes
+    - name: Download Containerd Systemd Unit File
+      get_url:
+        url:  https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+        dest: "{{containerd_systemd_unit}}"
+        mode: 0444
+    - name: Enable Containerd Systemd service
+      systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: started
+        name:  containerd.service

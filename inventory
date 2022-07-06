@@ -1,0 +1,1 @@
+knode1 ansible_host=knode1 ansible_ssh_private_key_file=wsl.pem ansible_user=juan ansible_become_password=4950
