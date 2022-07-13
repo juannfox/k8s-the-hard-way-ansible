@@ -1,0 +1,10 @@
+- name: Test
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  #vars:
+  #  - kubernetes_binaries_install_type: master
+  tasks:
+    - name: Install Kubernetes binaries w/ default values
+      ansible.builtin.include_role:
+        name: install-k8s-binaries

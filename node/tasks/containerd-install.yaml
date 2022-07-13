@@ -1,0 +1,22 @@
+- name: Download Containerd binary
+  get_url:
+    url: https://github.com/containerd/containerd/releases/download/v{{containerd_version}}/containerd-{{containerd_version}}-linux-{{architecture}}.tar.gz
+    dest: "{{containerd_tarball}}"
+    mode: 0655
+- name: Extract Containerd binary
+  unarchive:
+    src: "{{containerd_tarball}}"
+    dest: "{{containerd_dir}}"
+    mode: 0555
+    remote_src: true
+- name: Download Containerd Systemd Unit File
+  get_url:
+    url: https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+    dest: "{{containerd_systemd_unit}}"
+    mode: 0444
+- name: Enable Containerd Systemd service
+  systemd:
+    daemon_reload: true
+    enabled: true
+    state: started
+    name: containerd.service
