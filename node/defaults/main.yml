@@ -1,0 +1,22 @@
+---
+# defaults file for node
+architecture: "amd64"
+
+#Kubernetes specific
+kubernetes_release_url: "https://dl.k8s.io/release/stable.txt"
+
+#Container Runtime Interface (CRI) specific
+cri_version: "v1.24.2"
+cri_bin_dir: /usr/local/bin
+cri_tarball: /tmp/cri.tgz
+
+#Container Runtime specific (Containerd)
+containerd_version: "1.6.6"
+containerd_dir: /usr/local
+containerd_tarball: /tmp/containerd.tgz
+containerd_systemd_unit: /etc/systemd/system/containerd.service
+
+#CNI specific
+cni_version: "v1.1.1"
+cni_bin_dir: /opt/cni/bin
+cni_tarball: /tmp/cni-plugin.tgz

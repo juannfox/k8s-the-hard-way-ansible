@@ -1,0 +1,64 @@
+---
+- name: Bootstrap the TLS certs for CA and each service
+#  become: true
+#  hosts: knode1
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    certificates_path: /home/juan/ansible/certs
+    force_overwrite: false
+    #certificates_path: /etc/ssl
+  tasks:
+    - name: Generate the CA private key
+      openssl_privatekey:
+        path: "{{certificates_path}}/ca.key"
+        force: "{{force_overwrite}}"
+      register: ca_private
+    - name: Generate a CSR for the CA private key
+      openssl_csr:
+        path: "{{certificates_path}}/ca.csr"
+        privatekey_path: "{{ca_private.filename}}"
+        common_name: KUBERNETES-CA
+        force: "{{force_overwrite}}"
+      register: ca_request
+    - name: Create the public key for the CA (self-signed)
+      community.crypto.x509_certificate:
+        path: "{{certificates_path}}/ca.crt"
+        csr_path: "{{ca_request.filename}}"
+        privatekey_path: "{{ca_private.filename}}"
+        provider: selfsigned
+        force: "{{force_overwrite}}"     
+      register: ca_public
+    - name: Generate the Administrator private key
+      openssl_privatekey:
+        path: "{{certificates_path}}/admin.key"
+        force: "{{force_overwrite}}"
+      register: admin_private
+    - name: Generate a CSR for the Administrator private key
+      openssl_csr:
+        path: "{{certificates_path}}/admin.csr"
+        privatekey_path: "{{admin_private.filename}}"
+        common_name: admin
+        organization_name: system:masters
+        force: "{{force_overwrite}}"
+      register: admin_request
+    - name: Create the public key for the Administrator and sign with CA
+      community.crypto.x509_certificate:
+        path: "{{certificates_path}}/admin.crt"
+        csr_path: "{{admin_request.filename}}"
+        ownca_path: "{{ca_public.filename}}"
+        ownca_privatekey_path: "{{ca_private.filename}}"
+        provider: ownca
+        force: "{{force_overwrite}}"  
+      register: admin_public
+
+    - debug:
+        var: "{{item}}"
+      loop:
+        - ca_private
+        - ca_request
+        - ca_public
+        - admin_private
+        - admin_request
+        - admin_public

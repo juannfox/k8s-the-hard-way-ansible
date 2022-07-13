@@ -1,0 +1,23 @@
+---
+# defaults file for install-k8s-binaries
+
+#Kubernetes URL where Google publishes the latest stable version
+kubernetes_release_url: "https://dl.k8s.io/release/stable.txt"
+#Kubernetes binaries supported are kubectl, kube-proxy, kubelet, kube-controller-manager and kube-apiserver.
+kubernetes_binaries_default:
+  - kubectl
+kubernetes_binaries_node:
+  - kubelet
+  - kube-proxy
+kubernetes_binaries_master:
+  - kube-controller-manager
+  - kube-apiserver
+#Type of installation. Supported: "node", "master" or "default". The "default" one is included in both "node" and "master".
+kubernetes_binaries_install_type: default
+#Path for Kubernetes binaries
+kubernetes_binaries_path: /usr/local/bin/
+#File permissions for Kubernetes binaries. Must be an integer-type valid DAC code (type-user-group-other); defaults to Read+Execution for all.
+kubernetes_binaries_dac_code: 0555
+
+#Other
+architecture: amd64

@@ -1,0 +1,18 @@
+---
+#Installs the CNI plugin
+- name: Create CNI directory
+  file:
+    path: "{{cni_bin_dir}}"
+    state: directory
+    mode: 0755
+- name: Download CNI binary
+  get_url:
+    url: https://github.com/containernetworking/plugins/releases/download/{{cni_version}}/cni-plugins-linux-{{architecture}}-{{cni_version}}.tgz
+    dest: "{{cni_tarball}}"
+    mode: 0655
+- name: Extract CNI release content
+  unarchive:
+    src: "{{cni_tarball}}"
+    dest: "{{cni_bin_dir}}"
+    remote_src: true
+

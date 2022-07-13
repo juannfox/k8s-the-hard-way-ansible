@@ -1,0 +1,21 @@
+---
+#Tasks launch
+
+#Check to see if you can make it so it doesnt fetch the version many times
+#Shared tasks
+#- name: Fetch latest Kubernetes version online 
+#  ansible.builtin.include_tasks: k8s-version-fetch.yaml
+
+
+#Node tasks
+- name: Install Kubernetes binaries
+  ansible.builtin.include_role: install-k8s-binaries
+
+- name: Install Container Runtime Interface CLI
+  ansible.builtin.include_tasks: crictl-install.yaml
+
+- name: Install Containerd 
+  ansible.builtin.include_tasks: containerd-install.yaml
+
+- name: Install CNI plugin
+  ansible.builtin.include_tasks: install-cni-plugin.yaml
