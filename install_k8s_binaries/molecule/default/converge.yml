@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  vars:
+    - molecule_no_log: false
+  tasks:
+    - name: "Include install-k8s-binaries for testing"
+      ansible.builtin.include_tasks:
+        name: tasks/main.yaml

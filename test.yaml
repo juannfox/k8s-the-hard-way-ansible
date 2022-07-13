@@ -1,10 +1,8 @@
-- name: Test
+- name: Example playbook
   hosts: localhost
   connection: local
-  gather_facts: false
-  #vars:
-  #  - kubernetes_binaries_install_type: master
+  gather_facts: true
   tasks:
-    - name: Install Kubernetes binaries w/ default values
-      ansible.builtin.include_role:
-        name: install-k8s-binaries
+    - name: Debugg
+      debug:
+        var: ansible
