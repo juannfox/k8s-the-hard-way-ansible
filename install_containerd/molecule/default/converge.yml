@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Platform running
+      ansible.builtin.debug:
+        var: ansible_lsb   
+    - name: Install Containerd
+      ansible.builtin.include_role:
+        name: "install_containerd"

@@ -1,14 +1,14 @@
 ---
 - name: Default kubectl
   ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/{{ kubernetes_version.content }}/bin/linux/{{ architecture }}/{{ item }}"
+    url: "https://dl.k8s.io/release/{{ kubernetes_version }}/bin/linux/{{ architecture }}/{{ item }}"
     dest: "{{ kubernetes_binaries_path }}{{ item }}"
     mode: "{{ kubernetes_binaries_dac_code }}"
   loop: "{{ kubernetes_binaries_default }}"
 
 - name: Node binaries
   ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/{{ kubernetes_version.content }}/bin/linux/{{ architecture }}/{{ item }}"
+    url: "https://dl.k8s.io/release/{{ kubernetes_version }}/bin/linux/{{ architecture }}/{{ item }}"
     dest: "{{ kubernetes_binaries_path }}{{ item }}"
     mode: "{{ kubernetes_binaries_dac_code }}"
   loop: "{{ kubernetes_binaries_node }}"
@@ -16,7 +16,7 @@
 
 - name: Master binaries
   ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/{{ kubernetes_version.content }}/bin/linux/{{ architecture }}/{{ item }}"
+    url: "https://dl.k8s.io/release/{{ kubernetes_version }}/bin/linux/{{ architecture }}/{{ item }}"
     dest: "{{ kubernetes_binaries_path }}{{ item }}"
     mode: "{{ kubernetes_binaries_dac_code }}"
   loop: "{{ kubernetes_binaries_master }}"    

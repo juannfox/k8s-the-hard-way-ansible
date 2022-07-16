@@ -9,7 +9,10 @@
 
 #Node tasks
 - name: Install Kubernetes binaries
-  ansible.builtin.include_role: install_k8s_binaries
+  ansible.builtin.include_role:
+    name: install_k8s_binaries
+  vars:
+    kubernetes_binaries_install_type: node
 
 - name: Install Container Runtime Interface CLI
   ansible.builtin.include_tasks: crictl-install.yaml
