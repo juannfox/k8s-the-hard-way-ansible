@@ -1,6 +1,6 @@
 ---
 - name: Find latest stable Kubernetes version 
-  uri:
-    url: "{{kubernetes_release_url}}"
+  ansible.builtin.uri:
+    url: "{{ kubernetes_release_url }}"
     return_content: true
   register: kubernetes_version
