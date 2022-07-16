@@ -1,0 +1,21 @@
+---
+# defaults file for install_containerd
+
+# Containerd version
+containerd_version: "1.6.6"
+# Containerd install dir
+containerd_dir: /usr/local
+#Containerd download tarball path
+containerd_tarball: /tmp/containerd.tgz
+#Containerd Systemd unit file destination path
+containerd_systemd_unit: /etc/systemd/system/containerd.service
+
+# Container Runtime Interface (CRI) version
+cri_version: "v1.24.2"
+# CRI path
+cri_bin_dir: /usr/local/bin
+# CRI downlaod tarball path
+cri_tarball: /tmp/cri.tgz
+
+# Other
+architecture: amd64

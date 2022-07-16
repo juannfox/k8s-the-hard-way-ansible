@@ -1,0 +1,11 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+  tasks:
+  - name: OS verification
+    ansible.builtin.assert:
+      that:  
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version == "20.04"
+        - ansible_architecture == "x86_64"
