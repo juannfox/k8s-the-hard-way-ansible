@@ -2,7 +2,7 @@
 #Creates a virtual enviroment for python within molecule's scenario.
 
 molecule_path="molecule/default"
-venv_path="moco-venv"
+venv_path="/tmp/moco-venv"
 rc=1
 
 mkdir $venv_path -p
