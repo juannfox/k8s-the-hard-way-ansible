@@ -2,34 +2,35 @@
 - name: Converge
   hosts: all
   gather_facts: true
-  vars:
-    - molecule_no_log: false
   tasks:
     - name: Platform running
-      debug:
-        var: ansible_lsb
+      ansible.builtin.debug:
+        var: ansible_lsb   
 - name: Install in default mode - Only Kubectl
   hosts: all
   gather_facts: true
   vars:
-    - molecule_no_log: false
-    - kubernetes_binaries_install_type: default
-  roles:
-    - role: install_k8s_binaries
+    kubernetes_binaries_install_type: "default"
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: install_k8s_binaries   
 - name: Install for Node
   hosts: all
   gather_facts: true
   vars:
-    - molecule_no_log: false
-    - kubernetes_binaries_install_type: node
-  roles:
-    - role: install_k8s_binaries        
+    kubernetes_binaries_install_type: node
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: install_k8s_binaries       
 - name: Install for Master
   hosts: all
   gather_facts: true
   vars:
-    - molecule_no_log: false
-    - kubernetes_binaries_install_type: master
-  roles:
-    - role: install_k8s_binaries            
+    kubernetes_binaries_install_type: master
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: install_k8s_binaries           
 # Now running molecule login would have to allow usage of all the binaries without specifying path.
