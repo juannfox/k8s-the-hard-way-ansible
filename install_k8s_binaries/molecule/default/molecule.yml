@@ -6,7 +6,6 @@ driver:
 platforms:
   - name: Docker-Ubuntu-20.04
     image: ubuntu:20.04
-    pre_build_image: true
 provisioner:
   name: ansible
 verifier:

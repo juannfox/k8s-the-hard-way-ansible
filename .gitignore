@@ -1,1 +1,2 @@
 *.pem
+install_k8s_binaries/moco-venv/*

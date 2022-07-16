@@ -4,10 +4,7 @@ Delegated driver installation guide
 
 Requirements
 ============
-- molecule-docker
-- ansible-lint
-- yamllint
-- molecule-lint
+- Docker engine
 
 Install
 =======
