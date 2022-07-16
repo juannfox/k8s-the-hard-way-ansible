@@ -85,6 +85,18 @@ Example usage w/ custom variables:
 			    
 				name: install-k8s-binaries
 
+Testing with molecule
+----------------
+Ideally use bootstrap_molecule-enviroment.sh to set up your Python3 venv and pip3 packages to work with molecule within that envirment.
+After that, run the tests:
+molecule lint
+molecule create
+molecule verify
+molecule converge
+molecule login
+molecule tests
+
+
 License
 -------
 
