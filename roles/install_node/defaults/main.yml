@@ -1,0 +1,33 @@
+---
+# defaults file for node
+architecture: "amd64"
+apt_prerequisites:
+      - curl
+      - socat
+      - tar
+      - gzip
+
+# Kubernetes specific
+kubernetes_release_url: "https://dl.k8s.io/release/stable.txt"
+# Kubernetes version to use. Set to "latest" (default) will fetch the
+# latest-stable version from K8s web. If set manually, it must include
+# full version (minor and minor), i.e. 1.24.3.
+# For more details check: https://kubernetes.io/releases/
+kubernetes_version: "latest"
+
+# Containerd (Container runtime) specific.  Check for compatibility
+# with K8s and CRI versions.
+containerd_version: "1.6.6"
+
+# Container Runtime Interface (CRI) specific. Check for compatibility
+# with K8s and Containerd versions.
+cri_version: "v1.24.2"
+
+# CNI specific
+cni_version: "v1.1.1"
+cni_bin_dir: /opt/cni/bin
+cni_tarball: /tmp/cni-plugin.tgz
+cni_url_1: "https://github.com/containernetworking/plugins/releases/download/"
+cni_url_2: "{{ cni_version }}/cni-plugins-linux"
+cni_url_3: "-{{ architecture }}-{{ cni_version }}.tgz"
+cni_url: "{{ cni_url_1 }}{{ cni_url_2 }}{{ cni_url_3 }}"

@@ -1,0 +1,26 @@
+---
+# defaults
+
+certificates_path: /etc/pki
+
+# Do not alter
+force_overwrite: false
+
+# Subjects for TLS certificates creation
+tls_subjects:
+  admin:
+    common_name: admin
+    organization_name: system:masters
+  kubelet:
+    common_name: kubelet
+    organization_name: system:nodes
+  kube-proxy:
+    common_name: system:kube-proxy
+  kube-controller-manager:
+    common_name: system:kube-controller-manager
+  kube-scheduler:
+    common_name: system:kube-scheduler
+  kube-apiserver:
+    common_name: kube-apiserver
+  # Add extra info for kube-apiserver
+  # https://github.com/ddometita/mmumshad-kubernetes-the-hard-way/blob/master/docs/04-certificate-authority.md
