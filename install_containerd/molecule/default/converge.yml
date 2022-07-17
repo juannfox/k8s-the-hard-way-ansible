@@ -9,3 +9,5 @@
     - name: Install Containerd
       ansible.builtin.include_role:
         name: "install_containerd"
+      vars:
+        use_systemd: false

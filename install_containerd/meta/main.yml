@@ -9,6 +9,6 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - all
+        - focal
   galaxy_tags: []
 dependencies: []

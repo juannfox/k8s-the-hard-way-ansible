@@ -1,7 +1,6 @@
 ---
-#Tasks to run
+# Tasks to run
 - name: Install Containerd
   ansible.builtin.include_tasks: containerd-install.yaml
-
 - name: Install CRI
   ansible.builtin.include_tasks: crictl-install.yaml
