@@ -1,6 +1,6 @@
 - name: Download Containerd binary
   ansible.builtin.get_url:
-    url: https://github.com/containerd/containerd/releases/download/v{{containerd_version}}/containerd-{{containerd_version}}-linux-{{architecture}}.tar.gz
+    url: https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-{{ architecture }}.tar.gz
     dest: "{{ containerd_tarball }}"
     mode: 0655
 - name: Extract Containerd binary
@@ -20,7 +20,9 @@
     enabled: true
     state: started
     name: containerd.service
+  when: use_systemd
 - name: Start Containerd Systemd service
   ansible.builtin.systemd:
     state: started
     name: containerd    
+  when: use_systemd

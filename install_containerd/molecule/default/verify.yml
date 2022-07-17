@@ -3,6 +3,14 @@
   hosts: all
   gather_facts: true
   tasks:
+  - name: Check that crictl exists
+    ansible.builtin.command: "crictl -v"
+    register: command_output
+    changed_when: command_output.rc != 0
+  - name: Check that containerd exists
+    ansible.builtin.command: "containerd -v"
+    register: command_output
+    changed_when: command_output.rc != 0    
   - name: OS verification
     ansible.builtin.assert:
       that:  

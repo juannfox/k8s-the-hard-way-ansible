@@ -19,3 +19,5 @@ cri_tarball: /tmp/cri.tgz
 
 # Other
 architecture: amd64
+# Do not alter
+use_systemd: true
