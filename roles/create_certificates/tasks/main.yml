@@ -1,0 +1,6 @@
+---
+# Tasks to run
+- name: Create CA certificates
+  ansible.builtin.include_tasks: create_cacerts.yml
+- name: Create and sign certs for each component
+  ansible.builtin.include_tasks: create_keypair.yml

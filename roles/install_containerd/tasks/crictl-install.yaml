@@ -1,0 +1,13 @@
+---
+# Installs Container Runtime Interface CLI
+- name: Download CRI binary
+  ansible.builtin.get_url:
+    url: https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ cri_version }}/crictl-{{ cri_version }}-linux-{{ architecture }}.tar.gz
+    dest: "{{ cri_tarball }}"
+    mode: 0655
+- name: Extract CRI binary
+  ansible.builtin.unarchive:
+    src: "{{ cri_tarball }}"
+    dest: "{{ cri_bin_dir }}"
+    mode: 0555
+    remote_src: true

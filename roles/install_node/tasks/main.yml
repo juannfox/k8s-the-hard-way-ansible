@@ -1,0 +1,22 @@
+---
+# Tasks launch
+
+- name: Install prerequisites (apt packages)
+  ansible.builtin.include_tasks: install-prerequisites.yaml
+
+- name: Disable swap
+  ansible.builtin.shell: 
+    cmd: "sudo swapoff -a &> /dev/null"
+
+- name: Install Kubernetes binaries
+  ansible.builtin.include_role:
+    name: install_k8s_binaries
+  vars:
+    kubernetes_binaries_install_type: node
+
+- name: Install Kubernetes binaries
+  ansible.builtin.include_role:
+    name: install_containerd
+
+- name: Install CNI plugin
+  ansible.builtin.include_tasks: install-cni-plugin.yaml

@@ -1,0 +1,23 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+  tasks:
+  - name: Check that kubectl exists
+    ansible.builtin.command: "kubectl version --client"
+    register: command_output
+    changed_when: command_output.rc != 0
+  - name: Check that Kubelet exists
+    ansible.builtin.command: "kubelet --version"
+    register: command_output
+    changed_when: command_output.rc != 0
+  - name: Check that kube-proxy exists
+    ansible.builtin.command: "kube-proxy --version"
+    register: command_output
+    changed_when: command_output.rc != 0          
+  - name: OS verification
+    ansible.builtin.assert:
+      that:  
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version == "20.04"
+        - ansible_architecture == "x86_64"

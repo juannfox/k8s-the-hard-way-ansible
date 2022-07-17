@@ -1,0 +1,7 @@
+---
+#Tasks to run
+- name: Fetch latest Kubernetes version online 
+  ansible.builtin.include_tasks: k8s-version-fetch.yaml
+
+- name: Install Kubernetes binaries
+  ansible.builtin.include_tasks: k8s-binaries-install.yaml
