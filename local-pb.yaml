@@ -1,0 +1,22 @@
+---
+- name: Test simple roles/tasks locally
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: true
+  vars:
+    nodes_worker:
+      node01:
+        ip: 10.101.101.1
+        fqdn: node01.juannfox
+      node02:
+        ip: 10.101.101.2
+        fqdn: node02.juannfox
+    certificates_path: /etc/pki
+    force_overwrite: false
+  tasks:
+    - name: Include task
+      ansible.builtin.include_tasks: roles/create_certificates/tasks/main.yml
+
+
+

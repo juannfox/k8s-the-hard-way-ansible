@@ -14,7 +14,7 @@
   vars:
     kubernetes_binaries_install_type: node
 
-- name: Install Kubernetes binaries
+- name: Install Container runtime
   ansible.builtin.include_role:
     name: install_containerd
 
