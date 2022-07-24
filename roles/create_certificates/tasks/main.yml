@@ -1,6 +1,11 @@
 ---
 # Tasks to run
+- name: Create Certificates directory
+  ansible.builtin.file:
+    path: "{{ certificates_path }}"
+    state: directory
+    mode: '0666'
 - name: Create CA certificates
   ansible.builtin.include_tasks: create_cacerts.yml
 - name: Create and sign certs for each component
-  ansible.builtin.include_tasks: create_keypair.yml
+  ansible.builtin.include_tasks: certs_kubelet.yml

@@ -6,21 +6,33 @@ certificates_path: /etc/pki
 # Do not alter
 force_overwrite: false
 
-# Subjects for TLS certificates creation
+# Subjects for TLS certificates creation !! DEPRECATED !!
+# This is being replaced with a case-by-case method of creating certs due to difference in fields
 tls_subjects:
   admin:
     common_name: admin
     organization_name: system:masters
-  kubelet:
-    common_name: kubelet
-    organization_name: system:nodes
+    subject_alt_name: null
   kube-proxy:
     common_name: system:kube-proxy
+    organization_name: system:node-proxier
+    subject_alt_name: null
   kube-controller-manager:
     common_name: system:kube-controller-manager
+    organization_name: system:kube-controller-manager
+    subject_alt_name: null
   kube-scheduler:
     common_name: system:kube-scheduler
+    organization_name: system:kube-scheduler
+    subject_alt_name: null
   kube-apiserver:
-    common_name: kube-apiserver
-  # Add extra info for kube-apiserver
-  # https://github.com/ddometita/mmumshad-kubernetes-the-hard-way/blob/master/docs/04-certificate-authority.md
+    common_name: kubernetes
+    organization_name: Kubernetes
+    subject_alt_name: 
+      - "IP:{{ node_ip }}"
+      - "DNS:{{ node_hostname }}"
+      - "DNS:{{ node_fqdn }}"
+      - "DNS:kubernetes.default"
+      - "DNS:kubernetes.default.svc"
+      - "DNS:kubernetes.default.svc.cluster"
+      - "DNS:kubernetes.svc.cluster.local"
