@@ -1,0 +1,18 @@
+---
+- name: Generate the CA private key
+  openssl_privatekey:
+    path: "{{ ca_key }}"
+    force: "{{ force_overwrite }}"
+- name: Generate a CSR for the CA private key
+  openssl_csr:
+    path: "{{ ca_csr }}"
+    privatekey_path: "{{ ca_key }}"
+    common_name: KUBERNETES-CA
+    force: "{{ force_overwrite }}"
+- name: Create the public key for the CA (self-signed)
+  community.crypto.x509_certificate:
+    path: "{{ ca_crt }}"
+    csr_path: "{{ ca_csr }}"
+    privatekey_path: "{{ ca_key }}"
+    provider: selfsigned
+    force: "{{ force_overwrite }}"

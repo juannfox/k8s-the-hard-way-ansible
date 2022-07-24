@@ -13,6 +13,9 @@
         ip: 10.101.101.2
         fqdn: node02.juannfox
     certificates_path: /etc/pki
+    ca_key: "{{ certificates_path }}/ca.key"
+    ca_csr: "{{ certificates_path }}/ca.csr"
+    ca_crt: "{{ certificates_path }}/ca.crt"
     force_overwrite: false
   tasks:
     - name: Include task

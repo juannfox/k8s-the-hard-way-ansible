@@ -2,6 +2,9 @@
 # defaults
 
 certificates_path: /etc/pki
+ca_key: "{{ certificates_path }}/ca.key"
+ca_csr: "{{ certificates_path }}/ca.csr"
+ca_crt: "{{ certificates_path }}/ca.crt"
 
 # Do not alter
 force_overwrite: false

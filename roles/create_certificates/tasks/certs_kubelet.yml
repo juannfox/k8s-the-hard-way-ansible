@@ -23,8 +23,8 @@
   community.crypto.x509_certificate:
     path: "{{ certificates_path }}/{{ item.key }}.crt"
     csr_path: "{{ certificates_path }}/{{ item.key }}.csr"
-    ownca_path: "{{ certificates_path }}/ca.crt"
-    ownca_privatekey_path: "{{ certificates_path }}/ca.key"
+    ownca_path: "{{ ca_crt }}"
+    ownca_privatekey_path: "{{ ca_key }}"
     provider: ownca
     force: "{{ force_overwrite }}"
   loop: "{{ lookup('ansible.builtin.dict', nodes_worker)}}"
