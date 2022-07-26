@@ -6,6 +6,8 @@
     state: directory
     mode: '0666'
 - name: Create CA certificates
-  ansible.builtin.include_tasks: create_cacerts.yml
-- name: Create and sign certs for each component
+  ansible.builtin.include_tasks: certs_ca_k8s.yml
+- name: Create and sign certs for each Kubelet
   ansible.builtin.include_tasks: certs_kubelet.yml
+- name: Create and sign certs for the admin
+  ansible.builtin.include_tasks: certs_admin.yml

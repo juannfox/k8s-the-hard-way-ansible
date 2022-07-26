@@ -13,10 +13,33 @@
         ip: 10.101.101.2
         fqdn: node02.juannfox
     certificates_path: /etc/pki
+    ca_key: "{{ certificates_path }}/ca.key"
+    ca_csr: "{{ certificates_path }}/ca.csr"
+    ca_crt: "{{ certificates_path }}/ca.crt"
     force_overwrite: false
+    kubeconfig_path: /tmp/kubeconfig
+    cluster_url: "https://localhost:6443"
+    cluster_name: "k8s-hard-way"
+    component_tls_subjects:
+      kube-proxy:
+        common_name: system:kube-proxy
+        organization_name: system:node-proxier
+      kube-controller-manager:
+        common_name: system:kube-controller-manager
+        organization_name: system:kube-controller-manager
+      kube-scheduler:
+        common_name: system:kube-scheduler
+        organization_name: system:kube-scheduler
+
   tasks:
     - name: Include task
-      ansible.builtin.include_tasks: roles/create_certificates/tasks/main.yml
-
+      ansible.builtin.include_tasks: roles/create_certificates/tasks/certs_ca_k8s.yml
+    - name: Include task
+      ansible.builtin.include_tasks: roles/create_certificates/tasks/certs_generic.yml
+      vars:
+        tls_subject_name: "{{ item.key }}"
+        tls_subject_common_name: "{{ item.value.common_name }}"
+        tls_subject_organization_name: "{{ item.value.organization_name }}"
+      loop: "{{ lookup('ansible.builtin.dict',component_tls_subjects) }}"
 
 
