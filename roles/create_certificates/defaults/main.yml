@@ -1,16 +1,43 @@
 ---
 # defaults
 
+# Do not alter
+force_overwrite: false
+
+# TEMPORARY! These should be predefined or carried on runtime
+nodes_worker:
+  node01:
+    ip: 10.101.101.1
+    fqdn: node01.juannfox
+  node02:
+    ip: 10.101.101.2
+    fqdn: node02.juannfox
+
+# TEMPORARY! These should be predefined or carried on runtime 
+nodes_master:
+  master01:
+    ip: 10.200.201.1
+    fqdn: master01.juannfox
+  master02:
+    ip: 10.200.202.2
+    fqdn: master02.juannfox
+
+# TEMPORARY! These should be predefined or carried on runtime
+cluster_url: "https://localhost:6443"
+cluster_name: "k8s-hard-way"
+
 certificates_path: /etc/pki
+
 ca_key: "{{ certificates_path }}/ca.key"
 ca_csr: "{{ certificates_path }}/ca.csr"
 ca_crt: "{{ certificates_path }}/ca.crt"
 
-# Do not alter
-force_overwrite: false
+kubeconfig_path: /tmp/kubeconfig
 
-#Kubernetes components tls data
 component_tls_subjects:
+  admin:
+    common_name: admin
+    organization_name: system:masters
   kube-proxy:
     common_name: system:kube-proxy
     organization_name: system:node-proxier
@@ -21,16 +48,14 @@ component_tls_subjects:
     common_name: system:kube-scheduler
     organization_name: system:kube-scheduler
 
+# This only serves as prefix.
+kubelet_tls_subject:
+  name: "kubelet"
+  common_name: "system:node"
+  organization_name: "system:nodes"
 
-other:
+# This only serves as prefix.
+kube_apiserver_tls_subject:
   kube-apiserver:
     common_name: kubernetes
     organization_name: Kubernetes
-    subject_alt_name: 
-      - "IP:{{ node_ip }}"
-      - "DNS:{{ node_hostname }}"
-      - "DNS:{{ node_fqdn }}"
-      - "DNS:kubernetes.default"
-      - "DNS:kubernetes.default.svc"
-      - "DNS:kubernetes.default.svc.cluster"
-      - "DNS:kubernetes.svc.cluster.local"
