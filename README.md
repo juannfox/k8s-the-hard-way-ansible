@@ -49,3 +49,7 @@ The tasks are the following:
 
 A *hard* (self-setup, self-configured and self-managed) **Kubernetes** cluster deployment, but mixed with the power of **Ansible**.
 
+## Requirements
+- Ansible 2.13.1
+- Python 3
+- OpenSSL

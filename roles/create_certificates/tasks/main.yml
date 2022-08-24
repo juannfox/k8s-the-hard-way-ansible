@@ -4,12 +4,12 @@
   ansible.builtin.file:
     path: "{{ certificates_path }}"
     state: directory
-    mode: "0664"
+    mode: "{{ certificates_path_permissions }}"
 - name: Create Kubeconfig directory
   ansible.builtin.file:
     path: "{{ kubeconfig_path }}"
     state: directory
-    mode: "0664"
+    mode: "{{ kubeconfig_path_permissions }}"
 
 - name: Create CA certificates (self-signed)
   ansible.builtin.include_tasks: certs_ca_k8s.yml
@@ -34,19 +34,23 @@
       - "DNS:{{ item.value.fqdn }}"
   loop: "{{ lookup('ansible.builtin.dict', nodes_worker)}}"
 
-# TEMPORARY! This needs refactor to make it so that issues one key-pair for Kube-APIserver, but with all master IPs and hostnames.
-- name: Create certificates for Kube-API-servers
+# Kube-ApiServer Certificate preparation
+- name: "Define Kube-ApiServer SAN fields variable"
+  ansible.builtin.set_fact:
+    kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject.subject_alternative_name | join(';') }}"
+- name: "Combine Kube-ApiServer SAN fields with Master Node IPs"
+  ansible.builtin.set_fact:
+    kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject_san+';IP:'+item.value.ip }}"
+  with_items: "{{ lookup('ansible.builtin.dict', nodes_master)}}"
+- name: "Combine Kube-ApiServer SAN fields with Master Node FQDNs"
+  ansible.builtin.set_fact:
+    kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject_san+';DNS:'+item.value.fqdn }}"
+  with_items: "{{ lookup('ansible.builtin.dict', nodes_master) }}"
+
+- name: "Create certificates for Kube-API-servers"
   ansible.builtin.include_tasks: certs_generic.yml
   vars:
-    tls_subject_name: "{{ item.key }}"
+    tls_subject_name: "{{ kube_apiserver_tls_subject.name }}"
     tls_subject_common_name: "{{ kube_apiserver_tls_subject.common_name }}"
     tls_subject_organization_name: "{{ kube_apiserver_tls_subject.organization_name }}"
-    tls_subject_subject_alt_name:
-      - "IP:{{ item.value.ip }}"
-      - "DNS:{{ item.key }}"
-      - "DNS:{{ item.value.fqdn }}"
-      - "DNS:kubernetes.default"
-      - "DNS:kubernetes.default.svc"
-      - "DNS:kubernetes.default.svc.cluster"
-      - "DNS:kubernetes.svc.cluster.local"
-  loop: "{{ lookup('ansible.builtin.dict', nodes_master)}}"
+    tls_subject_subject_alt_name: "{{ kube_apiserver_tls_subject_san | split(';') }}"
