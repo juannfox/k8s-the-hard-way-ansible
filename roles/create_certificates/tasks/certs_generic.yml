@@ -12,7 +12,7 @@
     common_name: "{{ tls_subject_common_name }}"
     organization_name: "{{ tls_subject_organization_name }}"
     force: "{{ force_overwrite }}"
-  when: subject_alt_name is not defined
+  when: tls_subject_subject_alt_name is not defined
 
 - name: "Generate a CSR for the {{ tls_subject_name }} private key (with SAN)"
   openssl_csr:
@@ -22,7 +22,7 @@
     organization_name: "{{ tls_subject_organization_name }}"
     subject_alt_name: "{{ tls_subject_subject_alt_name }}"
     force: "{{ force_overwrite }}"
-  when: subject_alt_name is defined
+  when: tls_subject_subject_alt_name is defined
   
 - name: "Create the public key for the {{ tls_subject_name }} and sign with CA"
   community.crypto.x509_certificate:
@@ -50,4 +50,4 @@
   ansible.builtin.template:
     src: roles/create_certificates/files/kubeconfig
     dest: "{{ kubeconfig_path }}/kubeconfig_{{ tls_subject_name }}"
-    mode: '0444'
+    mode: " {{kubeconfig_file_permissions}} "

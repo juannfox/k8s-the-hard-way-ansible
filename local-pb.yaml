@@ -19,12 +19,15 @@
       master02:
         ip: 10.200.202.2
         fqdn: master02.juannfox        
-    certificates_path: /etc/pki
+    certificates_path: "/tmp/certificates"
+    certificates_path_permissions: "0777"
     ca_key: "{{ certificates_path }}/ca.key"
     ca_csr: "{{ certificates_path }}/ca.csr"
     ca_crt: "{{ certificates_path }}/ca.crt"
     force_overwrite: false
     kubeconfig_path: /tmp/kubeconfig
+    kubeconfig_path_permissions: "0777"
+    kubeconfig_file_permissions: "0666"
     cluster_url: "https://localhost:6443"
     cluster_name: "k8s-hard-way"
     component_tls_subjects:
@@ -43,12 +46,18 @@
     kube_apiserver_tls_subject:
       name: kube-apiserver
       common_name: kubernetes
-      organization_name: Kubernetes        
+      organization_name: Kubernetes
+      san: "DNS:kubernetes.default;DNS:kubernetes.default.svc;DNS:kubernetes.default.svc.cluster;DNS:kubernetes.svc.cluster.local"
+      subject_alternative_name:
+        - "DNS:kubernetes.default"
+        - "DNS:kubernetes.default.svc"
+        - "DNS:kubernetes.default.svc.cluster"
+        - "DNS:kubernetes.svc.cluster.local"
     kubelet_tls_subject:
       name: "kubelet"
       common_name: "system:node"
       organization_name: "system:nodes"  
 
-  tasks:      
+  tasks:
     - name: Include task
       ansible.builtin.include_tasks: roles/create_certificates/tasks/main.yml
