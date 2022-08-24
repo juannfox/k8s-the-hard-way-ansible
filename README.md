@@ -6,9 +6,9 @@
 
 This is my humble version of a workshop to deploy a **Kubernetes** cluster the "*hard way*", as the legendary *Kelsey Hightower* called it.
 It is -of course- inspired in *Kelsey's* famous repo [**[kubernetes-the-hard-way](https://github.com/kelseyhightower/kubernetes-the-hard-way)**](https://github.com/kelseyhightower/kubernetes-the-hard-way) and also in *Mumshad Mannambeth's* repo [[mmumshad-kubernetes-the-hard-way](https://github.com/ddometita/mmumshad-kubernetes-the-hard-way)](https://github.com/ddometita/mmumshad-kubernetes-the-hard-way) -who is an excelent **Udemy** teacher and founder of **KodeKloud** platform.
-## The Why
+
 I've only performed *kubernetes-the-hard-way* twice -based on local VMs- back when I was preparing for my *CKA* exam. Since I recall that being a quite daunting task but incredibly rewarding knowledge-wise, I've been wanting to do it again in order to fortify my *K8s* skills.
-Since I recently started learning and using **Ansible**, I though why not bring these two together -which by the way match quite right- and kill two birds with one stone -sort of-.
+Since I recently started learning and using **Ansible**, I though why not bring these two together -which by the way match quite right- and kill two birds with one stone -sort of speak-.
 ### Tools and Infrastructure
 
 > Infrastructure provisioning is currently out of this project's scope and being done manually (Vagrant can be used).
