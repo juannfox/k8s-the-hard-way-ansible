@@ -1,22 +1,19 @@
 ---
-# Tasks launch
+- name: OS verification
+  ansible.builtin.assert:
+    that:
+      - ansible_distribution == "Ubuntu"
+      - ansible_distribution_version == "20.04"
+      - ansible_architecture == "x86_64"
 
-- name: Install prerequisites (apt packages)
-  ansible.builtin.include_tasks: install-prerequisites.yaml
+- name: Install necessary OS packages
+  ansible.builtin.apt:
+    pkg: "{{ apt_prerequisites }}"
+    state: present
+    update_cache: true
 
-- name: Disable swap
-  ansible.builtin.shell: 
-    cmd: "sudo swapoff -a &> /dev/null"
+- name: Install Containerd (runtime)
+  ansible.builtin.include_tasks: containerd/main.yml
 
 - name: Install Kubernetes binaries
-  ansible.builtin.include_role:
-    name: install_k8s_binaries
-  vars:
-    kubernetes_binaries_install_type: node
-
-- name: Install Container runtime
-  ansible.builtin.include_role:
-    name: install_containerd
-
-- name: Install CNI plugin
-  ansible.builtin.include_tasks: install-cni-plugin.yaml
+  ansible.builtin.include_tasks: binaries/main.yml

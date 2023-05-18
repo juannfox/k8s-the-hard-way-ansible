@@ -1,0 +1,11 @@
+---
+- name: Download and install K8s binaries
+  ansible.builtin.get_url:
+    url: "{{ kubernetes_binary_releases_url }}/{{ item }}"
+    dest: "{{ kubernetes_binaries_path }}{{ item }}"
+    mode: "{{ kubernetes_binaries_dac_code }}"
+  loop: "{{ kubernetes_binaries_node }}"
+  when: kubernetes_binaries_install_type == "node"
+
+- name: Tasks to setup CNI plugin
+  ansible.builtin.include_tasks: binaries/cni.yml

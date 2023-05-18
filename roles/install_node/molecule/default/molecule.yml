@@ -4,14 +4,11 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: Docker-Ubuntu-20.04
+  - name: node
     image: ubuntu:20.04
 provisioner:
+
   name: ansible
+
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8

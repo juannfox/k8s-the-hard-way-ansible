@@ -1,8 +1,0 @@
----
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: true
-- name: Install necessary packages
-  ansible.builtin.apt:
-    pkg: "{{ apt_prerequisites }}"
-    state: present

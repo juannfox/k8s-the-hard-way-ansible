@@ -1,0 +1,28 @@
+---
+- name: Download Containerd binary
+  ansible.builtin.get_url:
+    url: "{{ containerd_release_url }}"
+    dest: "{{ containerd_tarball }}"
+    mode: "0655"
+
+- name: Extract and install Containerd binary
+  ansible.builtin.unarchive:
+    src: "{{ containerd_tarball }}"
+    dest: "{{ containerd_dir }}"
+    mode: "0555"
+    remote_src: true
+
+- name: Copy Containerd Systemd Unit File
+  ansible.builtin.copy:
+    src: files/containerd.service
+    dest: "{{ containerd_systemd_unit }}"
+    mode: "0444"
+  when: containerd_use_systemd
+
+- name: Start and Enable Containerd Systemd unit
+  ansible.builtin.systemd:
+    daemon_reload: true
+    enabled: true
+    state: started
+    name: "{{ containerd_daemon }}"
+  when: containerd_use_systemd
