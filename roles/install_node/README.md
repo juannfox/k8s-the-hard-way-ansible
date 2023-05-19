@@ -1,12 +1,18 @@
-Install Containerd runtime
+Install Kubernetes in a node
 =========
 
-Installs all the necessary software in a node.
+Installs Kubernetes in a node.
+
+Status
+------------
+
+- Installs Kubelet, Kube-Proxy, CNI plugin, Containerd and CRIctl
+- Needs: Configuration of Kubernetes itself
 
 Requirements
 ------------
 
-Access to Github and dl.k8s.io.
+Access to Github and dl.k8s.io for downloading releases (binaries).
 
 Role Variables
 --------------
@@ -17,40 +23,6 @@ Dependencies
 ------------
 
 Standalone role.
-
-Example Playbook
-----------------
-
-Example usage w/ defaults:
-  
-    - name: Example playbook
-    
-	    hosts: localhost
-    
-	    connection: local
-	    
-	    gather_facts: false
-    
-	    tasks:
-    
-		    - name: Install node
-		    
-			  ansible.builtin.include_role:
-			    
-				name: install_node
-
-
-Testing with molecule
-----------------
-Ideally use bootstrap_molecule-enviroment.sh to set up your Python3 venv and pip3 packages to work with molecule within that envirment.
-After that, run the tests:
-molecule lint
-molecule create
-molecule verify
-molecule converge
-molecule login
-molecule tests
-
 
 License
 -------

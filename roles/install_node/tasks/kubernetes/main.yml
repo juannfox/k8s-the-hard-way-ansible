@@ -5,7 +5,6 @@
     dest: "{{ kubernetes_binaries_path }}{{ item }}"
     mode: "{{ kubernetes_binaries_dac_code }}"
   loop: "{{ kubernetes_binaries_node }}"
-  when: kubernetes_binaries_install_type == "node"
 
 - name: Tasks to setup CNI plugin
-  ansible.builtin.include_tasks: binaries/cni.yml
+  ansible.builtin.include_tasks: kubernetes/cni.yml

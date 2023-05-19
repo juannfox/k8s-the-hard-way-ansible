@@ -2,6 +2,9 @@
 - name: Converge
   hosts: all
   gather_facts: true
+  vars:
+    architecture: aarch64
+    containerd_use_systemd: false
   tasks:
     - name: Install node
       ansible.builtin.include_role:

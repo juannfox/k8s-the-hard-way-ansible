@@ -1,7 +1,7 @@
 #!/bin/bash
 #Creates a virtual enviroment for python within molecule's scenario.
 
-venv_path="/tmp/moco-venv"
+venv_path="venv"
 rc=1
 
 mkdir $venv_path -p

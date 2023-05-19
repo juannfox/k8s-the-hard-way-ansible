@@ -1,5 +1,4 @@
 ---
-# Tasks to run
 - name: Install Containerd
   ansible.builtin.include_tasks: containerd.yml
 

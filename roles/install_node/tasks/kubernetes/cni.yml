@@ -1,5 +1,4 @@
 ---
-# Installs the CNI plugin
 - name: Create CNI directory
   ansible.builtin.file:
     path: "{{ cni_bin_dir }}"
@@ -8,7 +7,7 @@
 
 - name: Download CNI binary
   ansible.builtin.get_url:
-    url: "{{ cni_url }}"
+    url: "{{ cni_releases_url }}"
     dest: "{{ cni_tarball }}"
     mode: "0655"
 
@@ -16,4 +15,5 @@
   ansible.builtin.unarchive:
     src: "{{ cni_tarball }}"
     dest: "{{ cni_bin_dir }}"
+    mode: "0755"
     remote_src: true

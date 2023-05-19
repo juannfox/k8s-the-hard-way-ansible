@@ -1,2 +1,9 @@
+# Certificates
 *.pem
-install_k8s_binaries/moco-venv/*
+*.key
+*.crt
+*.csr
+
+# Python venv
+venv/**
+.venv/**

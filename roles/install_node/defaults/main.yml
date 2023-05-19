@@ -2,11 +2,12 @@
 #### KUBERNETES ####
 # Kubernetes version to use.
 # For more details check: https://kubernetes.io/releases/
-kubernetes_version: "latest"
+kubernetes_version: v1.27.2
 # K8s node binaries to install
 kubernetes_binaries_node:
   - kubelet
   - kube-proxy
+  - kubectl
 # Path for Kubernetes binaries
 kubernetes_binaries_path: /usr/local/bin/
 # File permissions for Kubernetes binaries. Must be
@@ -14,8 +15,8 @@ kubernetes_binaries_path: /usr/local/bin/
 # defaults to Read+Execution for all.
 kubernetes_binaries_dac_code: "0555"
 kubernetes_binary_releases_url: >-
-  https://dl.k8s.io/release/{{ kubernetes_version }}
-  /bin/linux/{{ architecture }}
+  https://dl.k8s.io/{{ kubernetes_version
+  }}/bin/linux/{{ arch_code }}
 
 #### CONTAINERD RUNTIME ####
 # Check for compatibility with K8s and CRI versions.
@@ -32,9 +33,9 @@ containerd_daemon: containerd
 containerd_use_systemd: true
 # Releases URL for Containerd
 containerd_release_url: >-
-  https://github.com/containerd/containerd/releases/download/
-  v{{ containerd_version }}/containerd-{{ containerd_version }}
-  -linux-{{ architecture }}.tar.gz
+  https://github.com/containerd/containerd/releases/download/v{{
+  containerd_version }}/containerd-{{ containerd_version
+  }}-linux-{{ arch_code }}.tar.gz
 
 #### CRI ####
 # CRI path
@@ -46,21 +47,24 @@ cri_tarball: /tmp/cri.tgz
 cri_version: "v1.24.2"
 # CRI releases URL
 cri_releases_url: >-
-  https://github.com/kubernetes-sigs/cri-tools/releases/download/
-  {{ cri_version }}/crictl-{{ cri_version }}-linux-{{ architecture }}.tar.gz
+  https://github.com/kubernetes-sigs/cri-tools/releases/download/{{
+  cri_version }}/crictl-{{ cri_version }}-linux-{{ arch_code }}.tar.gz
 
 #### CNI PLUGIN ####
 cni_version: "v1.1.1"
 cni_bin_dir: /opt/cni/bin
 cni_tarball: /tmp/cni-plugin.tgz
-cni_url_1: "https://github.com/containernetworking/plugins/releases/download/"
-cni_url_2: "{{ cni_version }}/cni-plugins-linux"
-cni_url_3: "-{{ architecture }}-{{ cni_version }}.tgz"
-cni_url: "{{ cni_url_1 }}{{ cni_url_2 }}{{ cni_url_3 }}"
+cni_releases_url: >-
+  https://github.com/containernetworking/plugins/releases/download/{{
+  cni_version }}/cni-plugins-linux-{{ arch_code }}-{{ cni_version
+  }}.tgz
 
 #### OS SETTINGS ####
 # CPU arch
 architecture: "amd64"
+# Override cpu_arch code for arm64 only (ansible uses a different one)
+arch_code: >-
+  {{ (architecture == "aarch64") | ternary('arm64', architecture) }}
 # Default OS packages to install
 apt_prerequisites:
   - curl

@@ -1,8 +1,7 @@
 ---
-# Installs Container Runtime Interface CLI
 - name: Download CRI binary
   ansible.builtin.get_url:
-    url: "{{ cri_release_url }}"
+    url: "{{ cri_releases_url }}"
     dest: "{{ cri_tarball }}"
     mode: "0655"
 

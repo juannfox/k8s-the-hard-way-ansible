@@ -4,7 +4,7 @@
     that:
       - ansible_distribution == "Ubuntu"
       - ansible_distribution_version == "20.04"
-      - ansible_architecture == "x86_64"
+      - ansible_architecture == "{{ architecture }}"
 
 - name: Install necessary OS packages
   ansible.builtin.apt:
@@ -16,4 +16,4 @@
   ansible.builtin.include_tasks: containerd/main.yml
 
 - name: Install Kubernetes binaries
-  ansible.builtin.include_tasks: binaries/main.yml
+  ansible.builtin.include_tasks: kubernetes/main.yml

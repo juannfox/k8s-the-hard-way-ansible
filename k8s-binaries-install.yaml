@@ -6,14 +6,6 @@
     mode: "{{ kubernetes_binaries_dac_code }}"
   loop: "{{ kubernetes_binaries_default }}"
 
-- name: Node binaries
-  ansible.builtin.get_url:
-    url: "https://dl.k8s.io/release/{{ kubernetes_version }}/bin/linux/{{ architecture }}/{{ item }}"
-    dest: "{{ kubernetes_binaries_path }}{{ item }}"
-    mode: "{{ kubernetes_binaries_dac_code }}"
-  loop: "{{ kubernetes_binaries_node }}"
-  when: kubernetes_binaries_install_type == "node"
-
 - name: Master binaries
   ansible.builtin.get_url:
     url: "https://dl.k8s.io/release/{{ kubernetes_version }}/bin/linux/{{ architecture }}/{{ item }}"
