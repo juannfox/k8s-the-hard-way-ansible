@@ -1,5 +1,6 @@
+---
 galaxy_info:
-  role_name: "install_containerd"
+  role_name: "node"
   namespace: "k8s"
   author: juannfox
   description: DevOps enthusiast

@@ -1,10 +1,10 @@
 ---
-# Tasks to run
 - name: Create Certificates directory
   ansible.builtin.file:
     path: "{{ certificates_path }}"
     state: directory
     mode: "{{ certificates_path_permissions }}"
+
 - name: Create Kubeconfig directory
   ansible.builtin.file:
     path: "{{ kubeconfig_path }}"
@@ -16,35 +16,31 @@
 
 - name: Create certificates for components
   ansible.builtin.include_tasks: certs_generic.yml
-  vars:
-    tls_subject_name: "{{ item.key }}"
-    tls_subject_common_name: "{{ item.value.common_name }}"
-    tls_subject_organization_name: "{{ item.value.organization_name }}"
-  loop: "{{ lookup('ansible.builtin.dict',component_tls_subjects) }}"
+  loop: "{{ lookup('ansible.builtin.dict', component_tls_subjects) }}"
+  loop_control:
+    label: "{{ tls_subject }}"
+    loop_var: tls_subject
 
 - name: Create certificates for Kubelets
   ansible.builtin.include_tasks: certs_generic.yml
-  vars:
-    tls_subject_name: "{{ item.key }}"
-    tls_subject_common_name: "{{ kubelet_tls_subject.common_name }}:{{ item.key }}"
-    tls_subject_organization_name: "{{ kubelet_tls_subject.organization_name }}"
-    tls_subject_subject_alt_name:
-      - "IP:{{ item.value.ip }}"
-      - "DNS:{{ item.key }}"
-      - "DNS:{{ item.value.fqdn }}"
-  loop: "{{ lookup('ansible.builtin.dict', nodes_worker)}}"
+  loop: "{{ lookup('ansible.builtin.dict', nodes_worker) }}"
+  loop_control:
+    label: "{{ tls_subject }}"
+    loop_var: tls_subject
 
 # Kube-ApiServer Certificate preparation
 - name: "Define Kube-ApiServer SAN fields variable"
   ansible.builtin.set_fact:
     kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject.subject_alternative_name | join(';') }}"
+
 - name: "Combine Kube-ApiServer SAN fields with Master Node IPs"
   ansible.builtin.set_fact:
-    kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject_san+';IP:'+item.value.ip }}"
-  with_items: "{{ lookup('ansible.builtin.dict', nodes_master)}}"
+    kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject_san + ';IP:' + item.value.ip }}"
+  with_items: "{{ lookup('ansible.builtin.dict', nodes_master) }}"
+
 - name: "Combine Kube-ApiServer SAN fields with Master Node FQDNs"
   ansible.builtin.set_fact:
-    kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject_san+';DNS:'+item.value.fqdn }}"
+    kube_apiserver_tls_subject_san: "{{ kube_apiserver_tls_subject_san + ';DNS:' + item.value.fqdn }}"
   with_items: "{{ lookup('ansible.builtin.dict', nodes_master) }}"
 
 - name: "Create certificates for Kube-API-servers"

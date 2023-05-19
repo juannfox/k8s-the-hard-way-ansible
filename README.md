@@ -13,7 +13,7 @@ Since I recently started learning and using **Ansible**, I though why not bring 
 
 > Infrastructure provisioning is currently out of this project's scope and being done manually (Vagrant can be used).
 
-A bunch of **Ansible** *roles* will be leveraging all the tasks that need to be performed on the nodes (Ubuntu 20.04 LTS based) in order to have the cluster up and running. 
+A bunch of **Ansible** *roles* will be leveraging all the tasks that need to be performed on the nodes (Ubuntu 20.04 LTS based) in order to have the cluster up and running.
 The tasks are the following:
 
 **Master nodes (x3)**
@@ -50,6 +50,7 @@ The tasks are the following:
 A *hard* (self-setup, self-configured and self-managed) **Kubernetes** cluster deployment, but mixed with the power of **Ansible**.
 
 ## Requirements
-- Ansible 2.13.1
+- Ansible
+- Molecule (for testing)
 - Python 3
 - OpenSSL

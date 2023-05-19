@@ -18,7 +18,7 @@
         fqdn: master01.juannfox
       master02:
         ip: 10.200.202.2
-        fqdn: master02.juannfox        
+        fqdn: master02.juannfox
     certificates_path: "/tmp/certificates"
     certificates_path_permissions: "0777"
     ca_key: "{{ certificates_path }}/ca.key"
@@ -33,12 +33,12 @@
     component_tls_subjects:
       admin:
         common_name: admin
-        organization_name: system:masters 
+        organization_name: system:masters
       kube-proxy:
         common_name: system:kube-proxy
         organization_name: system:node-proxier
       kube-controller-manager:
-        common_name: system:kube-controller-manager
+        common_name: system:kube-controller-managerß
         organization_name: system:kube-controller-manager
       kube-scheduler:
         common_name: system:kube-scheduler
@@ -47,7 +47,11 @@
       name: kube-apiserver
       common_name: kubernetes
       organization_name: Kubernetes
-      san: "DNS:kubernetes.default;DNS:kubernetes.default.svc;DNS:kubernetes.default.svc.cluster;DNS:kubernetes.svc.cluster.local"
+      san: >-
+        DNS:kubernetes.default;
+        DNS:kubernetes.default.svc;
+        DNS:kubernetes.default.svc.cluster;
+        DNS:kubernetes.svc.cluster.local
       subject_alternative_name:
         - "DNS:kubernetes.default"
         - "DNS:kubernetes.default.svc"
@@ -56,7 +60,7 @@
     kubelet_tls_subject:
       name: "kubelet"
       common_name: "system:node"
-      organization_name: "system:nodes"  
+      organization_name: "system:nodes"
 
   tasks:
     - name: Include task

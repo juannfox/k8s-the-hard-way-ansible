@@ -1,7 +1,6 @@
----
 galaxy_info:
-  role_name: "install_node"
-  namespace: "k8s"
+  role_name: tls
+  namespace: k8s
   author: juannfox
   description: DevOps enthusiast
   company: None, personal project

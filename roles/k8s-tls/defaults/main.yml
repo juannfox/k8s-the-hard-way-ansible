@@ -13,7 +13,7 @@ nodes_worker:
     ip: 10.101.101.2
     fqdn: node02.juannfox
 
-# TEMPORARY! These should be predefined or carried on runtime 
+# TEMPORARY! These should be predefined or carried on runtime
 nodes_master:
   master01:
     ip: 10.200.201.1

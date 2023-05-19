@@ -1,11 +1,11 @@
 ---
 - name: Generate the CA private key
-  openssl_privatekey:
+  community.crypto.openssl_privatekey:
     path: "{{ ca_key }}"
     force: "{{ force_overwrite }}"
 
 - name: Generate a CSR for the CA private key
-  openssl_csr:
+  community.crypto.openssl_csr:
     path: "{{ ca_csr }}"
     privatekey_path: "{{ ca_key }}"
     common_name: KUBERNETES-CA
@@ -18,7 +18,7 @@
     privatekey_path: "{{ ca_key }}"
     provider: selfsigned
     force: "{{ force_overwrite }}"
-  register: ca_key_result
+  register: tls_ca_key_result
 
 - name: Register info on the public key for the CA
   community.crypto.x509_certificate_info:
@@ -26,5 +26,5 @@
   register: ca_key_result
 
 - name: "Store the CA certificate content encoded in base64"
-  ansible.builtin.set_fact: 
+  ansible.builtin.set_fact:
     ca_crt_content: "{{ ca_key_result.public_key | string | b64encode }}"

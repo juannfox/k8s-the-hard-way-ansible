@@ -1,6 +1,6 @@
 ---
 # Kubernetes specific
-#kubernetes_release_url: "https://dl.k8s.io/release/stable.txt"
+# kubernetes_release_url: "https://dl.k8s.io/release/stable.txt"
 # Only runs if set to fetch latest version.
 - name: Find latest stable Kubernetes version
   ansible.builtin.uri:
@@ -11,5 +11,5 @@
 
 - name: Set Kubernetes version
   ansible.builtin.set_fact:
-      kubernetes_version: "{{ kubernetes_version_fetched.content }}"
+    kubernetes_version: "{{ kubernetes_version_fetched.content }}"
   when: kubernetes_version == "latest"
